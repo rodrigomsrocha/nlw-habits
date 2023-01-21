@@ -46,7 +46,7 @@ export function SumaryTable() {
               <HabitDay
                 key={date.toString()}
                 date={date}
-                amount={dayInSummary?.amount}
+                defaulAmount={dayInSummary?.amount}
                 defaultCompleted={dayInSummary?.completed}
               />
             );

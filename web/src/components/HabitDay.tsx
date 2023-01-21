@@ -1,5 +1,5 @@
 interface HabitDayProps {
-  amount?: number;
+  defaulAmount?: number;
   defaultCompleted?: number;
   date: Date;
 }
@@ -13,10 +13,11 @@ import { useState } from "react";
 
 export function HabitDay({
   date,
-  amount = 0,
+  defaulAmount = 0,
   defaultCompleted = 0,
 }: HabitDayProps) {
   const [completed, setCompleted] = useState(defaultCompleted);
+  const [amount, setAmount] = useState(defaulAmount);
 
   const completedPercentage =
     amount > 0 ? Math.round((completed / amount) * 100) : 0;
@@ -28,11 +29,15 @@ export function HabitDay({
     setCompleted(completed);
   }
 
+  function handleAmountChange(amount: number) {
+    setAmount(amount);
+  }
+
   return (
     <Popover.Root>
       <Popover.Trigger
         className={clsx(
-          "w-10 h-10 bg-zinc-900 border-2 border-zinc-800 rounded-lg",
+          "w-10 h-10 bg-zinc-900 border-2 border-zinc-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-background",
           {
             "bg-zinc-900 border-zinc-800": completedPercentage === 0,
             "bg-violet-900 border-violet-700":
@@ -54,7 +59,11 @@ export function HabitDay({
             {dayAndMonth}
           </span>
           <ProgressBar progress={completedPercentage} />
-          <HabitsList date={date} onCompletedChanged={handleCompletedChange} />
+          <HabitsList
+            date={date}
+            onCompletedChanged={handleCompletedChange}
+            onAmountChanged={handleAmountChange}
+          />
           <Popover.Arrow height={8} width={16} className="fill-zinc-900" />
         </Popover.Content>
       </Popover.Portal>
